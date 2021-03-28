@@ -7,16 +7,18 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.reposearch.R
-import com.example.reposearch.retrofit.RetrofitClient
 import com.example.reposearch.viewmodel.RepoViewModel
+import kotlinx.android.synthetic.main.main_view_fragment.*
 
 class MainViewFragment : Fragment(){
     private lateinit var searchButton: Button
     private lateinit var searchView : SearchView
     private lateinit var viewModel : RepoViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,8 +29,14 @@ class MainViewFragment : Fragment(){
         searchButton = rootView.findViewById(R.id.search_button)
         searchView = rootView.findViewById(R.id.search_view)
 
+        recyclerview!!.layoutManager = LinearLayoutManager(context)
+        recyclerview.addItemDecoration(
+            DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
+        )
+
         searchButton.setOnClickListener{
-           viewModel.getUser(searchView.query.toString())
+           recyclerview.adapter = RepoAdapter(viewModel.getUser(searchView.query.toString()))
+
         }
 
         val fm = fragmentManager
