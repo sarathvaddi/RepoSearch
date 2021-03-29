@@ -4,17 +4,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.reposearch.R
-import com.example.reposearch.model.repos
+import com.example.reposearch.model.Repos
 
 
 class RepoAdapter(
-    private val mRepos: LiveData<List<repos>>?
+    private var mRepos: List<Repos>?
 ): RecyclerView.Adapter<RepoViewHolder>() {
 
-    var repos = mRepos
+    //var repos = mRepos
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepoViewHolder {
@@ -24,13 +23,20 @@ class RepoAdapter(
     }
 
     override fun onBindViewHolder(holder: RepoViewHolder, position: Int) {
-        val repo = repos?.value?.get(position)
+        val repo = mRepos?.get(position)
         holder.title.setText(repo?.full_name)
     }
 
     override fun getItemCount(): Int {
-        return repos?.value?.size!!
+        if(mRepos!=null)
+        return mRepos?.size!!
+        else
+            return 0
     }
+
+     fun setItems(Repos :List<Repos>) {
+         this.mRepos = Repos
+     }
 
 }
 

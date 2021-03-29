@@ -1,18 +1,15 @@
 package com.example.reposearch.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.reposearch.model.repos
+import android.app.Application
+import androidx.lifecycle.*
+import com.example.reposearch.model.Repos
 import com.example.reposearch.repository.MainRepository
 
-class RepoViewModel : ViewModel() {
+class RepoViewModel(applicaton : Application) : AndroidViewModel(applicaton) {
 
-    var servicesLiveData: MutableLiveData<List<repos>>? = null
 
-    fun getUser(query : String) : LiveData<List<repos>>? {
-        servicesLiveData?.postValue( MainRepository.getServicesApiCall(query).value)
-        return servicesLiveData
+    fun getUser(query : String) : LiveData<List<Repos>>? {
+        return MainRepository.getServicesApiCall(query)
     }
 
 }
